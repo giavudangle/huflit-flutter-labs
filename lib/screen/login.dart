@@ -52,6 +52,7 @@ class _State extends State<Login> {
   }
 
   funcRegister() {
+    //comment
     return Navigator.of(context).pushNamed(Register.routeName);
   }
 
