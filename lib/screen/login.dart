@@ -1,50 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:huflit_flutter/screen/signup.dart';
+import 'package:huflit_flutter/screen/bottom_navigation_layout.dart';
+import 'register.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Login extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   static const routeName = "/";
   @override
-  State<Login> createState() => _State();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _State extends State<Login> {
+class _LoginScreenState extends State<LoginScreen> {
   final userName = TextEditingController();
   final password = TextEditingController();
+  checkLogin(String _userName, String _password) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? reUsername = prefs.getString('username');
+    String? rePassword = prefs.getString('password');
+    if (reUsername == _userName && rePassword == _password) return true;
+    return false;
+  }
 
-  funcLogin() {
-    final strUserName = userName.text.trim();
-    final strPassword = password.text.trim();
-
-    if (userName.text.isEmpty || password.text.isEmpty) {
-      return showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Warning'),
-              content: Text(
-                  'Please fill all information $strPassword - $strUserName'),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      return Navigator.of(context).pop();
-                    },
-                    child: Text('OK')),
-              ],
-            );
-          });
+  funcLogin() async {
+    final strUserName = userName.text;
+    final strPassword = password.text;
+    // get info from sharereference
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? reUsername = prefs.getString('username');
+    String? rePassword = prefs.getString('password');
+    //
+    if (strUserName == reUsername && strPassword == rePassword) {
+      Navigator.of(context).pushReplacementNamed(BottomNavigationLayout.routeName);
     } else {
       return showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Information'),
-              content: Text('Username:$strUserName and Password:$strPassword'),
+              title: Text('Warning'),
+              content: Text('Username or password is not correct.'),
               actions: [
                 TextButton(
-                    onPressed: () {
-                      return Navigator.of(context).pop();
-                    },
-                    child: Text('OK'))
+                  onPressed: () {
+                    return Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
               ],
             );
           });
@@ -52,66 +51,65 @@ class _State extends State<Login> {
   }
 
   funcRegister() {
-    return Navigator.of(context).pushNamed(Register.routeName);
+    return Navigator.of(context).pushNamed(RegisterNewScreen.routeName);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("LOGIN APP"),
+        title: Text('Login App'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: EdgeInsets.all(10),
         child: ListView(
           children: <Widget>[
             SizedBox(
               width: 100,
-              height: 100,
-              child: Image.asset('assets/logo.jpg'),
-            ),
-            Container(
-              alignment: Alignment.center,
-              child: const Text(
-                'LOGIN INFORMATION',
-                style: TextStyle(color: Colors.lightBlue, fontSize: 30),
+              height: 150,
+              child: Image.asset(
+                'assets/logo.jpg',
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(10),
               alignment: Alignment.center,
-              child: TextField(
-                controller: userName,
-                decoration: InputDecoration(
-                  labelText: 'Username',
-                  border: OutlineInputBorder(),
-                  suffixIcon: Icon(Icons.account_circle),
+              padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+              child: Text(
+                'LOGIN INFORMATION',
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 30,
                 ),
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+              padding: EdgeInsets.all(10),
+              child: TextField(
+                controller: userName,
+                decoration: InputDecoration(border: OutlineInputBorder(), labelText: 'User Name', suffixIcon: Icon(Icons.account_circle)),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
               child: TextField(
                 controller: password,
                 obscureText: true,
                 decoration: InputDecoration(
-                    labelText: 'Password',
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(
-                      Icons.lock,
-                    )),
+                  border: OutlineInputBorder(),
+                  labelText: 'Password',
+                  suffixIcon: Icon(Icons.lock),
+                ),
               ),
             ),
-            FlatButton(
-                onPressed: () {},
-                textColor: Colors.blue,
-                child: Text('Forgot Password')),
+            // ignore: deprecated_member_use
+            FlatButton(onPressed: () {}, textColor: Colors.blue, child: Text('Forgot Password')),
             Container(
               height: 50,
               padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue,
+                  primary: Colors.teal,
                   onPrimary: Colors.white,
                   onSurface: Colors.grey,
                 ),
@@ -126,19 +124,20 @@ class _State extends State<Login> {
                 children: <Widget>[
                   Text('Does not have account?'),
                   TextButton(
-                      onPressed: () {
-                        funcRegister();
-                      },
-                      child: Text(
-                        'Register',
-                        style: TextStyle(
-                          color: Colors.blue,
-                        ),
-                      ))
+                    child: Text(
+                      ' Sign in',
+                      style: TextStyle(
+                        color: Colors.blue,
+                      ),
+                    ),
+                    onPressed: () {
+                      funcRegister();
+                    },
+                  )
                 ],
                 mainAxisAlignment: MainAxisAlignment.center,
               ),
-            ),
+            )
           ],
         ),
       ),
