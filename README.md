@@ -1,6 +1,6 @@
-# huflit_flutter
+# HUFLIT Flutter Labs
 
-A new Flutter project.
+IMPORTANT: The master branch is always update to the latest day by day
 
 ## Getting Started
 
