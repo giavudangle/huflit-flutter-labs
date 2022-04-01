@@ -21,8 +21,7 @@ class _State extends State<Login> {
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text('Warning'),
-              content: Text(
-                  'Please fill all information $strPassword - $strUserName'),
+              content: Text('Please fill all information $strPassword - $strUserName'),
               actions: [
                 TextButton(
                     onPressed: () {
@@ -103,10 +102,7 @@ class _State extends State<Login> {
                     )),
               ),
             ),
-            FlatButton(
-                onPressed: () {},
-                textColor: Colors.blue,
-                child: Text('Forgot Password')),
+            FlatButton(onPressed: () {}, textColor: Colors.blue, child: Text('Forgot Password')),
             Container(
               height: 50,
               padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
