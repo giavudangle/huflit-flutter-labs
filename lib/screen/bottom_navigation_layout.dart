@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:huflit_flutter/screen/dashboard_fragment.dart';
-import 'info_fragment.dart';
-import 'home_fragment.dart';
-import 'logout_fragment.dart';
+import 'package:huflit_flutter/screen/info_fragment.dart';
+import 'package:huflit_flutter/screen/home_fragment.dart';
+import 'package:huflit_flutter/screen/login.dart';
+import 'package:huflit_flutter/screen/logout_fragment.dart';
 import 'package:huflit_flutter/screen/notification_fragment.dart';
-
+import 'package:huflit_flutter/screen/dashboardlist_fragment.dart';
 class BottomNavigationLayout extends StatefulWidget {
   static const routeName = "bottom-layout";
   @override
@@ -12,24 +12,24 @@ class BottomNavigationLayout extends StatefulWidget {
 }
 
 class _BottomNavigationLayoutState extends State<BottomNavigationLayout> {
-  int _currentIndex = 0;
+  late int _currentIndex;
   @override
   void initState() {
+    // ignore: todo
+    // TODO: implement initState
     super.initState();
     _currentIndex = 0;
   }
-
-  bodyWidget(int pos) {
-    switch (pos) {
+  bodyWidget(int pos){
+    switch(pos){
       case 0:
         return HomeFragmentWidget();
       case 1:
-        return DashboardFragmentWidget();
+        return SqlitePage();
       case 2:
-        return InfoFragmentWidget();
+        return const InfoScreen();
       case 3:
-        return LogoutFragmentWidget();
-    }
+        return const LogoutFragmentWidget();}
   }
 
   @override
@@ -46,32 +46,13 @@ class _BottomNavigationLayoutState extends State<BottomNavigationLayout> {
             _currentIndex = index;
           });
         },
-        currentIndex: _currentIndex,
+        currentIndex:  _currentIndex,
+        // ignore: prefer_const_literals_to_create_immutables
         items: [
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-                color: Colors.blue,
-              ),
-              label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.dashboard,
-                color: Colors.blue,
-              ),
-              label: 'Dashboard'),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.notifications_active,
-                color: Colors.blue,
-              ),
-              label: 'Add'),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.directions_run,
-                color: Colors.blue,
-              ),
-              label: 'Logout'),
+          const BottomNavigationBarItem(icon: Icon(Icons.home, color: Colors.blue,), label: 'Home'),
+          const BottomNavigationBarItem(icon: Icon(Icons.dashboard, color: Colors.blue,), label: 'Dashboard'),
+          const BottomNavigationBarItem(icon: Icon(Icons.notifications_active, color: Colors.blue,), label: 'Add'),
+          const BottomNavigationBarItem(icon: Icon(Icons.directions_run, color: Colors.blue,), label: 'Logout'),
         ],
       ),
       body: bodyWidget(_currentIndex),
