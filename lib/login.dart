@@ -1,10 +1,12 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:huflit_flutter/screen/bottom_navigation_layout.dart';
-import 'package:huflit_flutter/screen/register.dart';
-import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
   static const routeName = "/";
+
+  const LoginScreen({Key? key}) : super(key: key);
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -13,54 +15,40 @@ class _LoginScreenState extends State<LoginScreen> {
   final userName = TextEditingController();
   final password = TextEditingController();
 
-  funcLogin() async {
+  funcLogin() {
     final strUserName = userName.text;
     final strPassword = password.text;
-
-    try {
-      var url = Uri.parse(
-          'http://api.phanmemquocbao.com/api/info/CheckAccount?username=$strUserName&password=$strPassword&token=lethibaotran');
-      var response = await http.get(url);
-
-      if ((strUserName == "admin" && strPassword == "123") ||
-          response.body != null) {
-        Navigator.of(context)
-            .pushReplacementNamed(BottomNavigationLayout.routeName);
-      } else {
-        return showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Warning'),
-                content: Text('Username or password is not correct.'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      return Navigator.of(context).pop();
-                    },
-                    child: Text('OK'),
-                  ),
-                ],
-              );
-            });
-      }
-    } catch (err) {
-      print(err);
+    if (strUserName == 'admin' && strPassword == '123') {
+      Navigator.of(context)
+          .pushReplacementNamed(BottomNavigationLayout.routeName);
+    } else {
+      return showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Warning'),
+              content:const Text('Username or password is not correct.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    return Navigator.of(context).pop();
+                  },
+                  child:const Text('OK'),
+                ),
+              ],
+            );
+          });
     }
-  }
-
-  funcRegister() {
-    return Navigator.of(context).pushNamed(RegisterNewScreen.routeName);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login App'),
+        title:const Text('Login App'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding:const EdgeInsets.all(10),
         child: ListView(
           children: <Widget>[
             SizedBox(
@@ -73,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Container(
               alignment: Alignment.center,
               padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-              child: Text(
+              child: const Text(
                 'LOGIN INFORMATION',
                 style: TextStyle(
                   color: Colors.blue,
@@ -83,10 +71,10 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             Container(
-              padding: EdgeInsets.all(10),
+              padding:const EdgeInsets.all(10),
               child: TextField(
                 controller: userName,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     border: OutlineInputBorder(), labelText: 'User Name'),
               ),
             ),
@@ -95,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: TextField(
                 controller: password,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     border: OutlineInputBorder(), labelText: 'Password'),
               ),
             ),
@@ -103,10 +91,10 @@ class _LoginScreenState extends State<LoginScreen> {
             FlatButton(
                 onPressed: () {},
                 textColor: Colors.blue,
-                child: Text('Forgot Password')),
+                child: const Text('Forgot Password')),
             Container(
               height: 50,
-              padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+              padding:const EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   primary: Colors.teal,
@@ -122,15 +110,15 @@ class _LoginScreenState extends State<LoginScreen> {
             Container(
               child: Row(
                 children: <Widget>[
-                  Text('Does not have account?'),
-                  FlatButton(
+                  const Text('Does not have account?'),
+                   FlatButton(
                     textColor: Colors.blue,
-                    child: Text(
+                    child: const Text(
                       'Sign in',
                       style: TextStyle(fontSize: 20),
                     ),
                     onPressed: () {
-                      funcRegister();
+                      funcLogin();
                     },
                   )
                 ],
